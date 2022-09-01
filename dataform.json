@@ -2,7 +2,7 @@
     "warehouse": "bigquery",
     "defaultSchema": "dataform",
     "assertionSchema": "dataform_assertions",
-    "defaultDatabase": "dataform-test-330421",
+    "defaultDatabase": "	stg-datalakehouse",
     "useRunCache": false,
-    "defaultLocation": "us"
+    "defaultLocation": "us-central1"
 }
