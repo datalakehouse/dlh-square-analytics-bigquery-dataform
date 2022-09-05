@@ -1,1 +1,1 @@
-config { type: 'view' }  select * from bigquery-public-data.samples
+config { type: 'view' } select * from bigquery-public-data.hacker_news.stories
