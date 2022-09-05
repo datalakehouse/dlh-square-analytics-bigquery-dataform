@@ -1,1 +1,5 @@
-config { type: 'view' } select * from bigquery-public-data.hacker_news.stories
+config { type: 'view' }
+SELECT 
+author, count(*) count_comments
+FROM `bigquery-public-data.hacker_news.comments`
+group by 1
