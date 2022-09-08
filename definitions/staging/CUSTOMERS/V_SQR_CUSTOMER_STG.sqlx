@@ -9,7 +9,7 @@ WITH source AS (
   SELECT 
   * 
   FROM  	
-    common.${ref(constants.source_schema","DEMO_SQUARE_ALT13,"CUSTOMER")}
+    common.${ref(constants.source_schema,"CUSTOMER")}
 ),
 rename AS 
 (   

@@ -37,7 +37,7 @@ with rename as (
     ,(SELECT invocation_id FROM ${ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
 
   FROM 
-    common.${ref(constants.source_schema","DEMO_SQUARE_ALT13," 'LOCATION")} A    
+    common.${ref(constants.source_schema," 'LOCATION")} A    
 
 )
 
