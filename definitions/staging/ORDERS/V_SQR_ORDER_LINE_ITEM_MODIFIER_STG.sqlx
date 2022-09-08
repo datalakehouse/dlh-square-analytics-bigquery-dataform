@@ -15,7 +15,7 @@ source_order_line_item AS (
 SELECT DISTINCT A_POS_CATEGORY_NAME,K_POS_ORDER_DLHK,K_POS_CATALOG_OBJECT_DLHK,K_POS_CATALOG_OBJECT_BK, K_POS_ORDER_LINE_BK,A_POS_ORDER_LINE_NAME,A_POS_ORDER_LINE_VARIATION_NAME,K_POS_ORDER_BK FROM  ${ref("V_SQR_ORDER_LINE_ITEM_STG")}
 ),
 source_catalog_modifier AS (
-  SELECT * FROM  common.${ref(constants.source_schema,"CATALOG_MODIFIER")}
+  SELECT * FROM  ${ref(constants.source_schema,"CATALOG_MODIFIER")}
 ),
 
 source_catalog_modifier AS (
