@@ -1,0 +1,23 @@
+ config {
+  type: "table",
+  schema: constants.target_schema,
+  tags: ["staging", "daily"],
+    description: "This is the merchant location dimension table",
+  columns: {
+ 
+    K_MERCH_LOC_DLHK: "DataLakeHouse key of the currency",
+  },
+  assertions: {
+    uniqueKey: ["K_MERCH_LOC_DLHK"],
+    nonNull: ["K_MERCH_LOC_DLHK"]
+
+  }, 
+
+
+}
+
+
+SELECT
+  *
+FROM
+  ${ref("V_SQR_MERCHANT_LOCATION_STG")} AS M

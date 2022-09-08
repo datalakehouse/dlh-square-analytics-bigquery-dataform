@@ -1,6 +1,6 @@
 {
     "warehouse": "bigquery",
-    "defaultSchema": "dataform_test",
+    "defaultSchema": "dataform",
     "assertionSchema": "dataform_assertions",
     "defaultDatabase": "stg-datalakehouse",
     "useRunCache": false,
