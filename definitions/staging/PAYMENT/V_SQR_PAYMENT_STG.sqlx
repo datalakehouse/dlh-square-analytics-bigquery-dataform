@@ -43,8 +43,8 @@ rename AS
         --METADATA
         , CURRENT_TIMESTAMP AS MD_LOAD_DTS
         , MD5(CONCAT(
-                IFNULL(NULLIF(TRIM(CAST(ID AS VARCHAR)), ''), '^^'), '||',
-                IFNULL(NULLIF(TRIM(CAST(CUSTOMER_ID AS VARCHAR)), ''), '^^') )) AS MD_HASH_COL
+                IFNULL(NULLIF(TRIM(CAST(ID AS STRING)), ''), '^^'), '||',
+                IFNULL(NULLIF(TRIM(CAST(CUSTOMER_ID AS STRING)), ''), '^^') )) AS MD_HASH_COL
         , (SELECT invocation_id FROM ${ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
 FROM source 
 )
