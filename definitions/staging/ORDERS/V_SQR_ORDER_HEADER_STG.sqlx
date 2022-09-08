@@ -6,7 +6,7 @@
 }
 
 WITH source AS (
-  SELECT * FROM  common.${ref(constants.source_schema,"ORDER")} AS A
+  SELECT * FROM  ${ref(constants.source_schema,"ORDER")} AS A
 ),
 rename AS 
 (

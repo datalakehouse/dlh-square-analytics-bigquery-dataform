@@ -9,7 +9,7 @@ WITH source AS (
   SELECT 
   * 
   FROM  	
-    common.${ref(constants.source_schema,"CUSTOMER")}
+    ${ref(constants.source_schema,"CUSTOMER")}
 ),
 rename AS 
 (   
@@ -21,7 +21,7 @@ SELECT
     --ATTRIBUTES
     ,GIVEN_NAME AS A_POS_GIVEN_NAME
     ,FAMILY_NAME AS A_POS_FAMILY_NAME
-    ,common.${full_name("GIVEN_NAME","FAMILY_NAME")} AS A_POS_FULL_NAME
+    ,${common.full_name("GIVEN_NAME","FAMILY_NAME")} AS A_POS_FULL_NAME
     ,EMAIL_ADDRESS AS A_POS_EMAIL
     ,ADDRESS_ADDRESS_LINE_1 AS A_POS_ADDR_LINE_1
     ,ADDRESS_ADDRESS_LINE_2 AS A_POS_ADDR_LINE_2

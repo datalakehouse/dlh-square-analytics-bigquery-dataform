@@ -6,7 +6,7 @@
 }
 
 WITH source AS (
-  SELECT * FROM  common.${ref(constants.source_schema,"PAYMENT")}
+  SELECT * FROM  ${ref(constants.source_schema,"PAYMENT")}
 ),
 
 rename AS 

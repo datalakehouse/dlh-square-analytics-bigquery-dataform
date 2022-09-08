@@ -6,7 +6,7 @@
 }
 
 WITH source AS (
-  SELECT * FROM  common.${ref(constants.source_schema,"ORDER_LINE_ITEM_MODIFIER")}
+  SELECT * FROM  ${ref(constants.source_schema,"ORDER_LINE_ITEM_MODIFIER")}
 ),
 source_order AS (
 SELECT DISTINCT K_POS_ORDER_DLHK,K_POS_LOCATION_BK  FROM  ${ref("V_SQR_ORDER_HEADER_STG")}
