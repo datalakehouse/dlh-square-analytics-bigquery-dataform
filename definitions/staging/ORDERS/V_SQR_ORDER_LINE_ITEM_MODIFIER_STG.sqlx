@@ -18,10 +18,6 @@ source_catalog_modifier AS (
   SELECT * FROM  ${ref(constants.source_schema,"CATALOG_MODIFIER")}
 ),
 
-source_catalog_modifier AS (
-  SELECT NULL AS ID, NULL AS NAME, NULL AS PRICE_MONEY_AMOUNT, NULL AS PRICE_MONEY_CURRENCY WHERE FALSE
-),
-
 rename AS 
 (
  SELECT
