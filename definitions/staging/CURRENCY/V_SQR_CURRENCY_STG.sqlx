@@ -16,7 +16,7 @@ SELECT
     ,'' AS MD_HASH_COL
     , (SELECT invocation_id FROM ${ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
 
-UNION
+UNION ALL
 
 SELECT
     'EUR' as K_CURRENCY_BK
