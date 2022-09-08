@@ -17,7 +17,7 @@ rename as (
 
 SELECT
        --MD5 KEYS
-        TO_HEX(SHA256( ID ) AS K_POS_CATALOG_CATEGORY_DLHK        
+        TO_HEX(SHA256( ID )) AS K_POS_CATALOG_CATEGORY_DLHK        
         --BUSINESS KEYS
         ,ID AS K_POS_CATALOG_CATEGORY_BK        
         --DESCRIPTION
