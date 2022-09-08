@@ -1,0 +1,4 @@
+config {
+  type: "table" 
+} 
+ SELECT GENERATE_UUID() as invocation_id from dual
