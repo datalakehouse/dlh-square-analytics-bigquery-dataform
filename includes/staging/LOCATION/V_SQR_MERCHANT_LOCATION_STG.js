@@ -1,9 +1,10 @@
- config {
+ module.exports = (params) => {
+  return publish("V_SQR_MERCHANT_LOCATION_STG", {
     type: "view",
-    schema: constants.target_schema,
-    tags: ["staging", "daily"]
- }
-
+    schema: params.target_schema,
+    tags: ["staging", "daily"],
+     ...params.defaultConfig
+}).query(ctx => `
 
 with rename as (
 
@@ -34,10 +35,10 @@ with rename as (
 
         --//metadata (MD)
     ,CURRENT_TIMESTAMP as MD_LOAD_DTS
-    ,(SELECT invocation_id FROM ${ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
+    ,(SELECT invocation_id FROM ${ctx.ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
 
   FROM 
-    ${ref(constants.source_schema,"LOCATION")} A    
+    ${ctx.ref(params.source_schema,"LOCATION")} A    
 
 )
 
@@ -49,11 +50,12 @@ UNION all
 SELECT 
   TO_HEX(SHA256('00000000000000000000000000000000')), TO_HEX(SHA256('00000000000000000000000000000000'))
   , NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
-  , NULL, (SELECT invocation_id FROM ${ref("H_INVOCATION_ID")})
+  , NULL, (SELECT invocation_id FROM ${ctx.ref("H_INVOCATION_ID")})
 --, TRUE, 1, NULL, NULL
 -- , NULL, NULL, MSRC.K_MERCHANT_SOURCE_DLHK
 -- FROM
 --     merchant_source MSRC WHERE MSRC._id = 1
 
-
+`)
+ }
 

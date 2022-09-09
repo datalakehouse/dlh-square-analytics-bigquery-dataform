@@ -1,15 +1,18 @@
- config {
-     
-
-    type: "view",
-    schema: constants.target_schema,
-    tags: ["staging", "daily"]
-     
-}
- 
+module.exports = (params) => {
+    return publish("V_SQR_CATALOG_TAX_STG", {
+      snowflake: { 
+       transient: false 
+    }, 
+  
+      type: "view",
+      schema: params.target_schema,
+      tags: ["staging", "daily"],
+       
+      ...params.defaultConfig
+  }).query(ctx => `
 
 WITH source AS (
-  SELECT * FROM  ${ref(constants.source_schema,"CATALOG_TAX")}
+  SELECT * FROM  ${ctx.ref(params.source_schema,"CATALOG_TAX")}
 ),
 
 rename as (
@@ -35,9 +38,12 @@ SELECT DISTINCT
     ,ENABLED AS B_IS_ENABLED
     --METADATA (MD)
     ,CURRENT_TIMESTAMP AS MD_LOAD_DTS        
-    ,(SELECT invocation_id FROM ${ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
+    ,(SELECT invocation_id FROM ${ctx.ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
 FROM
     source
 )
 
 SELECT * FROM rename
+
+`)
+}

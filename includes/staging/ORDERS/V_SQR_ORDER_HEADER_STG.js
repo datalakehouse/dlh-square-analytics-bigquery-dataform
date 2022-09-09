@@ -1,12 +1,15 @@
- config {
+module.exports = (params) => {
+  return publish("V_SQR_ORDER_HEADER_STG", {
   type: "view",
-  schema: constants.target_schema,
-  tags: ["staging", "daily"]
+  schema: params.target_schema,
+  tags: ["staging", "daily"],
 
-}
+    ...params.defaultConfig
+}).query(ctx => `
+
 
 WITH source AS (
-  SELECT * FROM  ${ref(constants.source_schema,"ORDER")} AS A
+  SELECT * FROM  ${ctx.ref(params.source_schema,"ORDER")} AS A
 ),
 rename AS 
 (
@@ -40,8 +43,11 @@ SELECT
   
   --METADATA (MD)
   ,CURRENT_TIMESTAMP as MD_LOAD_DTS
-  ,(SELECT invocation_id FROM ${ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
+  ,(SELECT invocation_id FROM ${ctx.ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
 FROM source
 )
 
 SELECT * FROM rename
+
+`)
+}

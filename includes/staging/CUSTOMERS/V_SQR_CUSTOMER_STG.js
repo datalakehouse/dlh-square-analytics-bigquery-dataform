@@ -1,15 +1,18 @@
- config {
+const common = require("../../common");
+ module.exports = (params) => {
+  return publish("V_SQR_CUSTOMER_STG", {
   type: "view",
-  schema: constants.target_schema,
-  tags: ["staging", "daily"]
+  schema: params.target_schema,
+  tags: ["staging", "daily"],
 
-}
+    ...params.defaultConfig
+}).query(ctx => `
 
 WITH source AS (
   SELECT 
   * 
   FROM  	
-    ${ref(constants.source_schema,"CUSTOMER")}
+    ${ctx.ref(params.source_schema,"CUSTOMER")}
 ),
 rename AS 
 (   
@@ -41,10 +44,13 @@ SELECT
     ,UPDATED_AT AS A_POS_UPDATED_AT_DTS
         --//metadata (MD)
     ,CURRENT_TIMESTAMP as MD_LOAD_DTS
-    ,(SELECT invocation_id FROM ${ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
+    ,(SELECT invocation_id FROM ${ctx.ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
   FROM
       source    
 )
 
 
 SELECT * FROM rename
+
+`)
+ }

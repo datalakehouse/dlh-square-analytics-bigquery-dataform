@@ -1,8 +1,15 @@
- config {
+
+ module.exports = (params) => {
+  return publish("W_SQR_CATALOG_ITEM_D", {
   type: "table",
-  schema: constants.target_schema,
+  schema: params.target_schema,
   tags: ["staging", "daily"],
-    description: "This is the catalog item dimension table",
+  snowflake: { 
+     transient: false 
+  }, 
+
+
+      description: "This is the catalog item dimension table",
   columns: {
  
     K_POS_CATALOG_OBJECT_HASH_DLHK: "DataLakeHouse key of the item",
@@ -11,11 +18,9 @@
     uniqueKey: ["K_POS_CATALOG_OBJECT_HASH_DLHK"],
     nonNull: ["K_POS_CATALOG_OBJECT_HASH_DLHK"]
 
-  }, 
-
-
-}
-
+  },
+...params.defaultConfig
+}).query(ctx => `
 
 SELECT
   --MD5 KEYS
@@ -41,7 +46,7 @@ SELECT
   ,MD_LOAD_DTS
   ,MD_INTGR_ID
 FROM
-  ${ref("V_SQR_CATALOG_ITEM_VARIATION_STG")} AS CIV
+  ${ctx.ref("V_SQR_CATALOG_ITEM_VARIATION_STG")} AS CIV
 
 UNION ALL
 
@@ -68,10 +73,6 @@ SELECT
     ,MD_LOAD_DTS
     ,MD_INTGR_ID
 FROM
-  ${ref("V_SQR_CATALOG_ITEM_MODIFIER_STG")} AS CIM
-
-
-
-
-
-  
+  ${ctx.ref("V_SQR_CATALOG_ITEM_MODIFIER_STG")} AS CIM
+  `)
+ }

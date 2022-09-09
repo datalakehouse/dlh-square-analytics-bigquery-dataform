@@ -1,13 +1,15 @@
- config {
+module.exports = (params) => {
+  return publish("V_SQR_CATALOG_ITEM_VARIATION_STG", {
   type: "view",
-  schema: constants.target_schema,
-  tags: ["staging", "daily"]
+  schema: params.target_schema,
+  tags: ["staging", "daily"],
 
-}
+    ...params.defaultConfig
+}).query(ctx => `
 
 WITH 
 source AS (
-SELECT * FROM  ${ref("V_SQR_ORDER_LINE_ITEM_STG")}
+SELECT * FROM  ${ctx.ref("V_SQR_ORDER_LINE_ITEM_STG")}
 ), renamed AS (
  SELECT  DISTINCT
  --MD5 KEYS        
@@ -29,7 +31,7 @@ SELECT * FROM  ${ref("V_SQR_ORDER_LINE_ITEM_STG")}
         ,M_POS_ITEM_VARIATION_PRICE_MONEY_AMOUNT AS M_POS_PRICE_MONEY_AMOUNT
         --metadata (MD)
         , CURRENT_TIMESTAMP AS MD_LOAD_DTS        
-        , (SELECT invocation_id FROM ${ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
+        , (SELECT invocation_id FROM ${ctx.ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
 FROM source
 )
 
@@ -39,3 +41,5 @@ FROM
 renamed
 
 
+`)
+}

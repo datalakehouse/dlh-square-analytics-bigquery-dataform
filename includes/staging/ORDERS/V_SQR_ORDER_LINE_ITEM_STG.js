@@ -1,24 +1,26 @@
- config {
+module.exports = (params) => {
+  return publish("V_SQR_ORDER_LINE_ITEM_STG", {
   type: "view",
-  schema: constants.target_schema,
-  tags: ["staging", "daily"]
+  schema: params.target_schema,
+  tags: ["staging", "daily"],
 
-}
+    ...params.defaultConfig
+}).query(ctx => `
 
 WITH source AS (
-  SELECT * FROM  ${ref(constants.source_schema,"ORDER_LINE_ITEM")}
+  SELECT * FROM  ${ctx.ref(params.source_schema,"ORDER_LINE_ITEM")}
 ),
 source_item_variation AS (
-  SELECT * FROM  ${ref(constants.source_schema,"CATALOG_ITEM_VARIATION")}
+  SELECT * FROM  ${ctx.ref(params.source_schema,"CATALOG_ITEM_VARIATION")}
 ),
 source_order AS (
-SELECT DISTINCT K_POS_ORDER_DLHK,K_POS_LOCATION_BK  FROM  ${ref("V_SQR_ORDER_HEADER_STG")}
+SELECT DISTINCT K_POS_ORDER_DLHK,K_POS_LOCATION_BK  FROM  ${ctx.ref("V_SQR_ORDER_HEADER_STG")}
 ),
 source_category AS (
-  SELECT * FROM  ${ref("V_SQR_CATALOG_CATEGORY_STG")}
+  SELECT * FROM  ${ctx.ref("V_SQR_CATALOG_CATEGORY_STG")}
 ),
 source_item AS (
-  SELECT * FROM  ${ref(constants.source_schema,"CATALOG_ITEM")}
+  SELECT * FROM  ${ctx.ref(params.source_schema,"CATALOG_ITEM")}
 ),
 rename AS 
 (
@@ -61,3 +63,6 @@ LEFT JOIN source_category AS CAT ON CAT.K_POS_CATALOG_CATEGORY_BK = SIT.CATEGORY
 SELECT 
  TO_HEX(SHA256(CONCAT(CAST(K_POS_CATALOG_OBJECT_DLHK AS  STRING),CAST(K_POS_LOCATION_BK AS STRING),CAST(A_POS_PRODUCT_NAME AS STRING),CAST(COALESCE(A_POS_ORDER_LINE_VARIATION_NAME,'NA') AS STRING),CAST(K_POS_CATALOG_OBJECT_ITEM_DLHK AS STRING)))) AS K_POS_CATALOG_OBJECT_HASH_DLHK,
 * FROM rename
+
+`)
+}

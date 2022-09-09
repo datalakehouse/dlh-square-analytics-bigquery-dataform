@@ -1,12 +1,14 @@
- config {
+module.exports = (params) => {
+  return publish("V_SQR_PAYMENT_STG", {
   type: "view",
-  schema: constants.target_schema,
-  tags: ["staging", "daily"]
+  schema: params.target_schema,
+  tags: ["staging", "daily"],
 
-}
+    ...params.defaultConfig
+}).query(ctx => `
 
 WITH source AS (
-  SELECT * FROM  ${ref(constants.source_schema,"PAYMENT")}
+  SELECT * FROM  ${ctx.ref(params.source_schema,"PAYMENT")}
 ),
 
 rename AS 
@@ -45,8 +47,11 @@ rename AS
         , TO_HEX(SHA256(CONCAT(
                 IFNULL(NULLIF(TRIM(CAST(ID AS STRING)), ''), '^^'), '||',
                 IFNULL(NULLIF(TRIM(CAST(CUSTOMER_ID AS STRING)), ''), '^^') ))) AS MD_HASH_COL
-        , (SELECT invocation_id FROM ${ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
+        , (SELECT invocation_id FROM ${ctx.ref("H_INVOCATION_ID")}) AS MD_INTGR_ID
 FROM source 
 )
 
 SELECT * FROM rename
+
+  `)
+}
