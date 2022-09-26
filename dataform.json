@@ -3,6 +3,11 @@
     "defaultSchema": "dataform",
     "assertionSchema": "dataform_assertions",
     "defaultDatabase": "stg-datalakehouse",
+    "vars": {
+        "source_database": "stg-datalakehouse",
+        "source_schema": "DEMO_SQUARE",
+        "target_schema": "CUST02"
+    }
     "useRunCache": false,
     "defaultLocation": "US"
 }
