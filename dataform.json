@@ -5,7 +5,7 @@
     "defaultDatabase": "stg-datalakehouse",
     "vars": {
         "source_database": "stg-datalakehouse",
-        "source_schema": "DEMO_SQUARE",
+        "source_schema": "DEMO_SQUARE_ALT13",
         "target_schema": "CUST02"
     },
     "useRunCache": false,
