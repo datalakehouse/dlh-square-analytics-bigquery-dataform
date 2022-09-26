@@ -21,9 +21,9 @@ const W_SQR_CURRENCY_D = require("./includes/master/W_SQR_CURRENCY_D.js");
 
 module.exports = (params) => {
   params = {
-    source_database: 'stg-datalakehouse',
-    source_schema: 'DEMO_SQUARE_ALT13',
-    target_schema: 'SQUARE',
+    source_database: dataform.projectConfig.vars.source_database,
+    source_schema: dataform.projectConfig.vars.source_schema,
+    target_schema: dataform.projectConfig.vars.target_schema,
     ...params
   };
   const {
