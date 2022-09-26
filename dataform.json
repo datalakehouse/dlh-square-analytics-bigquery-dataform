@@ -7,7 +7,7 @@
         "source_database": "stg-datalakehouse",
         "source_schema": "DEMO_SQUARE",
         "target_schema": "CUST02"
-    }
+    },
     "useRunCache": false,
     "defaultLocation": "US"
 }
